@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="frontend/public/logo.png" alt="Mirai Logo" width="120" />
-</p>
-
 <h1 align="center">🛒 Mirai — Compra Inteligente</h1>
 
 <p align="center">
