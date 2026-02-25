@@ -1,0 +1,82 @@
+[
+  {
+    "produto": "Tênis Nike Precision 6 Masculino - Basquete",
+    "loja": "Amazon.com.br",
+    "preco": 299.99,
+    "preco_fmt": "R$ 299,99",
+    "link": "https://www.amazon.com.br/dp/B0EXAMPLE1/",
+    "imagem": "https://images.example.com/nike-precision-6.jpg",
+    "entrega": "Frete grátis com Prime",
+    "avaliacao": 4.5
+  },
+  {
+    "produto": "Tênis Nike Precision 6 Flyease - Basquete",
+    "loja": "Dafiti",
+    "preco": 319.9,
+    "preco_fmt": "R$ 319,90",
+    "link": "https://www.dafiti.com.br/tenis-nike-precision-flyease/MNO678",
+    "imagem": "https://images.example.com/precision-flyease.jpg",
+    "entrega": "Entrega em 5 dias úteis",
+    "avaliacao": 4.3
+  },
+  {
+    "produto": "Tênis Nike Air Max Impact 4 Masculino - Basquete",
+    "loja": "Magazine Luiza",
+    "preco": 349.9,
+    "preco_fmt": "R$ 349,90",
+    "link": "https://www.magazineluiza.com.br/tenis-nike-air-max-impact-4/p/abc123/",
+    "imagem": "https://images.example.com/nike-impact-4.jpg",
+    "entrega": "Frete grátis",
+    "avaliacao": 4.7
+  },
+  {
+    "produto": "Tênis Nike Air Max Impact 4 - Preto e Branco",
+    "loja": "Casas Bahia",
+    "preco": 379.9,
+    "preco_fmt": "R$ 379,90",
+    "link": "https://www.casasbahia.com.br/tenis-nike-impact-4/GHI012",
+    "imagem": "https://images.example.com/nike-impact-4-pb.jpg",
+    "entrega": "Frete grátis",
+    "avaliacao": 4.4
+  },
+  {
+    "produto": "Tênis Nike Zoom Freak 5 Basquete",
+    "loja": "Mercado Livre",
+    "preco": 419.0,
+    "preco_fmt": "R$ 419,00",
+    "link": "https://www.mercadolivre.com.br/tenis-nike-zoom-freak-5/MLB12345",
+    "imagem": "https://images.example.com/nike-freak-5.jpg",
+    "entrega": "Frete grátis Full",
+    "avaliacao": 4.6
+  },
+  {
+    "produto": "Tênis Nike LeBron Witness 7 - Basquete Masculino",
+    "loja": "Netshoes",
+    "preco": 529.99,
+    "preco_fmt": "R$ 529,99",
+    "link": "https://www.netshoes.com.br/tenis-nike-lebron-witness-7/XYZ456",
+    "imagem": "https://images.example.com/lebron-witness-7.jpg",
+    "entrega": "Entrega em 3 dias",
+    "avaliacao": 4.8
+  },
+  {
+    "produto": "Tênis Nike Giannis Immortality 3 Basquete",
+    "loja": "Nike.com.br",
+    "preco": 599.99,
+    "preco_fmt": "R$ 599,99",
+    "link": "https://www.nike.com.br/tenis-giannis-immortality-3/JKL345",
+    "imagem": "https://images.example.com/giannis-3.jpg",
+    "entrega": "Frete grátis acima de R$299",
+    "avaliacao": 4.7
+  },
+  {
+    "produto": "Tênis Nike KD 16 Masculino - Basquete",
+    "loja": "Centauro",
+    "preco": 899.9,
+    "preco_fmt": "R$ 899,90",
+    "link": "https://www.centauro.com.br/tenis-nike-kd-16/DEF789",
+    "imagem": "https://images.example.com/nike-kd-16.jpg",
+    "entrega": "Retire na loja",
+    "avaliacao": 4.9
+  }
+]

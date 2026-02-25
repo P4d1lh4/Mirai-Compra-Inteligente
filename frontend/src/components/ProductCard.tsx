@@ -1,0 +1,100 @@
+'use client';
+
+import { ShoppingCart, MapPin, ArrowRight, Tag } from 'lucide-react';
+import { Product } from '@/lib/api';
+import { formatPrice, cn } from '@/lib/utils';
+
+interface ProductCardProps {
+  product: Product;
+  onClick: () => void;
+}
+
+export default function ProductCard({ product, onClick }: ProductCardProps) {
+  const hasPrices = product.min_price !== null;
+  const priceRange =
+    product.min_price !== null && product.max_price !== null
+      ? product.max_price - product.min_price
+      : 0;
+
+  return (
+    <button
+      onClick={onClick}
+      className="group w-full rounded-2xl border border-gray-100 bg-white p-4 text-left
+                 shadow-sm transition-card hover:border-brand-200"
+    >
+      {/* Product image placeholder */}
+      <div className="mb-3 flex h-32 items-center justify-center rounded-xl bg-gray-50 overflow-hidden">
+        {product.image_url ? (
+          <div className="flex h-full w-full items-center justify-center text-4xl text-gray-300">
+            <ShoppingCart className="h-12 w-12" />
+          </div>
+        ) : (
+          <ShoppingCart className="h-12 w-12 text-gray-300" />
+        )}
+      </div>
+
+      {/* Category badge */}
+      {product.category && (
+        <span className="inline-block rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-700 mb-2">
+          {product.category.icon} {product.category.name}
+        </span>
+      )}
+
+      {/* Product name */}
+      <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-brand-700 transition-colors">
+        {product.name}
+      </h3>
+
+      {/* Brand & unit */}
+      {(product.brand || product.unit) && (
+        <p className="mt-0.5 text-xs text-gray-500">
+          {product.brand && <span>{product.brand}</span>}
+          {product.brand && product.unit && <span> · </span>}
+          {product.unit && <span>{product.unit}</span>}
+        </p>
+      )}
+
+      {/* Price section */}
+      <div className="mt-3 flex items-end justify-between">
+        {hasPrices ? (
+          <div>
+            <p className="text-lg font-bold text-brand-600">
+              {formatPrice(product.min_price!)}
+            </p>
+            {priceRange > 0.01 && (
+              <p className="text-xs text-gray-400">
+                até {formatPrice(product.max_price!)}
+              </p>
+            )}
+          </div>
+        ) : (
+          <p className="text-sm text-gray-400">Preço indisponível</p>
+        )}
+
+        {/* Store count */}
+        {product.store_count > 0 && (
+          <div className="flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1">
+            <MapPin className="h-3 w-3 text-gray-500" />
+            <span className="text-xs font-medium text-gray-600">
+              {product.store_count} {product.store_count === 1 ? 'loja' : 'lojas'}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Savings badge */}
+      {priceRange > 1 && (
+        <div className="mt-2 flex items-center gap-1 text-xs font-medium text-orange-600">
+          <Tag className="h-3 w-3" />
+          <span>Economize até {formatPrice(priceRange)}</span>
+        </div>
+      )}
+
+      {/* CTA */}
+      <div className="mt-3 flex items-center justify-center gap-1 rounded-xl bg-brand-50 py-2 text-sm font-semibold text-brand-700 group-hover:bg-brand-100 transition-colors">
+        Comparar preços
+        <ArrowRight className="h-4 w-4" />
+      </div>
+    </button>
+  );
+}
