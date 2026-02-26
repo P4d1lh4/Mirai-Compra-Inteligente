@@ -2,8 +2,10 @@
 
 from typing import Optional
 
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.database import get_db
 from app.schemas.serpapi import SerpApiShoppingResponse
 from app.services.serpapi_service import (
     SerpApiService,
@@ -22,6 +24,7 @@ async def buscar_shopping(
     preco_min: Optional[float] = Query(None, ge=0, description="Preço mínimo"),
     preco_max: Optional[float] = Query(None, ge=0, description="Preço máximo"),
     location: Optional[str] = Query(None, max_length=200, description="Localização regional (ex: 'Recife, Pernambuco, Brazil')"),
+    db: AsyncSession = Depends(get_db),
 ):
     """
     Busca preços de produtos em lojas brasileiras via Google Shopping (SerpApi).
@@ -29,10 +32,12 @@ async def buscar_shopping(
     Retorna uma lista de resultados com produto, loja, preço e link de compra.
     Os resultados podem ser ordenados por preço e filtrados por faixa de valor.
     Quando `location` é fornecido, filtra resultados pela região do usuário.
+    Os resultados localizados ficarão salvos na base da dados.
     """
     try:
-        resultado = await SerpApiService.buscar_precos(
+        resultado = await SerpApiService.search_and_save_products(
             query=q,
+            db=db,
             ordenar_por_preco=ordenar_preco,
             num_resultados=num,
             preco_min=preco_min,

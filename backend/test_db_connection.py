@@ -1,18 +1,20 @@
 import asyncio
-import asyncpg
 import sys
+
+from app.core.config import settings
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy import text
 
 async def test_connection():
     try:
-        conn = await asyncpg.connect(
-            user='smartcart',
-            password='smartcart123',
-            database='smartcart',
-            host='127.0.0.1',
-            port=5432
-        )
-        print("Connection successful!")
-        await conn.close()
+        # Use as configurações feitas na database
+        engine = create_async_engine(settings.DATABASE_URL, echo=True)
+        
+        async with engine.connect() as conn:
+            await conn.execute(text("SELECT 1"))
+            print("Connection successful! Configured DATABASE_URL is reachable.")
+            
+        await engine.dispose()
     except Exception as e:
         print(f"Connection failed: {e}")
         import traceback
