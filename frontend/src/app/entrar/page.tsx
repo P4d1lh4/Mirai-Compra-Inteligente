@@ -36,7 +36,7 @@ export default function LoginPage() {
         setIsLoading(true);
         try {
             await login(email, password);
-            router.push('/');
+            router.push('/listas');
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : 'Erro ao fazer login.';
             setError(message);

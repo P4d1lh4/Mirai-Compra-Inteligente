@@ -125,9 +125,15 @@ function HomeContent() {
                 <br />
                 perto de você
               </h1>
-              <p className="mt-3 text-lg text-gray-500 max-w-xl mx-auto">
-                Compare preços de supermercados, crie listas inteligentes
-                e economize todo mês.
+              <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto font-medium">
+                Digite o produto na barra de pesquisa abaixo ou{' '}
+                <button
+                  onClick={() => router.push('/assistente')}
+                  className="text-cyan-600 font-bold hover:underline"
+                >
+                  consulte nosso Assistente
+                </button>{' '}
+                para darmos a melhor recomendação!
               </p>
             </div>
 
@@ -267,21 +273,19 @@ function HomeContent() {
 
             {/* Loading state */}
             {loading && (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <div key={i} className="rounded-2xl border border-gray-100 bg-white p-4 animate-pulse">
-                    <div className="h-32 rounded-xl bg-gray-100" />
-                    <div className="mt-3 h-4 rounded bg-gray-100 w-3/4" />
-                    <div className="mt-2 h-3 rounded bg-gray-100 w-1/2" />
-                    <div className="mt-3 h-6 rounded bg-gray-100 w-1/3" />
-                  </div>
-                ))}
+              <div className="flex flex-col items-center justify-center py-20">
+                <div className="relative flex h-16 w-16 items-center justify-center mb-6">
+                  <div className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-20"></div>
+                  <Sparkles className="h-8 w-8 text-cyan-500 animate-pulse" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900">Buscando os melhores preços...</h3>
+                <p className="mt-2 text-sm text-gray-500">Isso pode levar alguns segundos.</p>
               </div>
             )}
 
             {/* Product grid */}
             {!loading && products.length > 0 && (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map((product) => (
                   <ProductCard
                     key={product.id}
@@ -295,12 +299,19 @@ function HomeContent() {
             {/* Empty state */}
             {!loading && products.length === 0 && (shoppingOffers?.length ?? 0) === 0 && (
               <div className="rounded-2xl border border-gray-100 bg-white p-12 text-center">
-                <div className="text-5xl mb-4">🔍</div>
+                <div className="text-5xl mb-4 text-cyan-500">🔍</div>
                 <h3 className="text-lg font-bold text-gray-900">
                   Nenhum produto encontrado
                 </h3>
-                <p className="mt-1 text-gray-500">
-                  Tente buscar por outro termo ou remova os filtros.
+                <p className="mt-2 text-gray-500">
+                  Tente buscar por outro termo ou clique em{' '}
+                  <button
+                    onClick={() => router.push('/assistente')}
+                    className="text-cyan-600 font-semibold hover:underline"
+                  >
+                    Ir para o Assistente
+                  </button>
+                  .
                 </p>
               </div>
             )}

@@ -1,8 +1,11 @@
 'use client';
 
-import { ShoppingCart, MapPin, ArrowRight, Tag } from 'lucide-react';
-import { Product } from '@/lib/api';
-import { formatPrice, cn } from '@/lib/utils';
+import { ShoppingCart, MapPin, ArrowRight, Tag, Heart, Loader2 } from 'lucide-react';
+import { Product, getShoppingLists, createShoppingList, addShoppingListItem } from '@/lib/api';
+import { formatPrice } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 interface ProductCardProps {
   product: Product;
@@ -10,18 +13,58 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, onClick }: ProductCardProps) {
+  const { user } = useAuth();
+  const router = useRouter();
+  const [isAdding, setIsAdding] = useState(false);
+
   const hasPrices = product.min_price !== null;
   const priceRange =
     product.min_price !== null && product.max_price !== null
       ? product.max_price - product.min_price
       : 0;
 
+  const handleSave = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!user) {
+      router.push('/entrar');
+      return;
+    }
+
+    setIsAdding(true);
+    try {
+      let lists = await getShoppingLists();
+      let defaultList = lists.find(l => l.name === 'Minha Lista');
+
+      if (!defaultList) {
+        defaultList = await createShoppingList({ name: 'Minha Lista' });
+      }
+
+      await addShoppingListItem(defaultList.id, {
+        product_id: product.id,
+        quantity: 1,
+      });
+      alert('Produto adicionado à sua lista!');
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao adicionar à lista.');
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
   return (
     <button
       onClick={onClick}
       className="group w-full rounded-2xl border border-gray-100 bg-white p-4 text-left
-                 shadow-sm transition-card hover:border-brand-200"
+                 shadow-sm transition-card hover:border-brand-200 relative"
     >
+      <button
+        onClick={handleSave}
+        disabled={isAdding}
+        className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-sm text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors z-10 disabled:opacity-50"
+      >
+        {isAdding ? <Loader2 className="h-4 w-4 animate-spin" /> : <Heart className="h-4 w-4" />}
+      </button>
       {/* Product image placeholder */}
       <div className="mb-3 flex h-32 items-center justify-center rounded-xl bg-gray-50 overflow-hidden">
         {product.image_url ? (

@@ -33,8 +33,14 @@ async def update_profile(
     db: AsyncSession = Depends(get_db),
 ):
     """Update the current user's personal info."""
-    service = ProfileService(db)
-    return await service.update_profile(user_id, data)
+    try:
+        service = ProfileService(db)
+        return await service.update_profile(user_id, data)
+    except Exception as e:
+        print(f"PROFILE UPDATE ERROR: {e}")
+        import traceback
+        traceback.print_exc()
+        raise
 
 
 @router.get("/addresses", response_model=list[UserAddressOut])

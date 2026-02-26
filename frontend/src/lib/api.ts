@@ -259,6 +259,48 @@ export async function login(data: { email: string; password: string }): Promise<
   });
 }
 
+// --- Shopping Lists ---
+export async function getShoppingLists(): Promise<ShoppingList[]> {
+  return apiFetch('/shopping-lists', { headers: authHeaders() });
+}
+
+export async function createShoppingList(data: { name: string; notes?: string }): Promise<ShoppingList> {
+  return apiFetch('/shopping-lists', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+}
+
+export async function getShoppingList(listId: string): Promise<ShoppingList> {
+  return apiFetch(`/shopping-lists/${listId}`, { headers: authHeaders() });
+}
+
+export async function addShoppingListItem(
+  listId: string,
+  data: { product_id?: string; custom_name?: string; quantity?: number }
+): Promise<ShoppingListItem> {
+  return apiFetch(`/shopping-lists/${listId}/items`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+}
+
+export async function removeShoppingListItem(listId: string, itemId: string): Promise<void> {
+  await fetch(`${API_BASE}/shopping-lists/${listId}/items/${itemId}`, {
+    method: 'DELETE',
+    headers: { ...authHeaders() },
+  });
+}
+
+export async function toggleShoppingListItem(listId: string, itemId: string): Promise<ShoppingListItem> {
+  return apiFetch(`/shopping-lists/${listId}/items/${itemId}/toggle`, {
+    method: 'PATCH',
+    headers: authHeaders(),
+  });
+}
+
 // --- SerpApi (Google Shopping) ---
 export async function searchShoppingOffers(
   query: string,
@@ -319,7 +361,7 @@ export async function updateProfile(data: {
 }): Promise<UserProfile> {
   return apiFetch('/profile', {
     method: 'PUT',
-    headers: authHeaders(),
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(data),
   });
 }
@@ -339,7 +381,7 @@ export async function addAddress(data: {
 }): Promise<UserAddress> {
   return apiFetch('/profile/addresses', {
     method: 'POST',
-    headers: authHeaders(),
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(data),
   });
 }
@@ -350,7 +392,7 @@ export async function updateAddress(
 ): Promise<UserAddress> {
   return apiFetch(`/profile/addresses/${addressId}`, {
     method: 'PUT',
-    headers: authHeaders(),
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(data),
   });
 }

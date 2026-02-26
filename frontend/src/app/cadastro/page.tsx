@@ -60,7 +60,7 @@ export default function RegisterPage() {
         setIsLoading(true);
         try {
             await register(name.trim(), email, password, zipCode.replace('-', '') || undefined);
-            router.push('/');
+            router.push('/listas');
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : 'Erro ao criar conta.';
             setError(message);

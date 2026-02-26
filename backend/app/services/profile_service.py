@@ -43,7 +43,6 @@ class ProfileService:
             setattr(user, field, value)
 
         await self.db.flush()
-        await self.db.refresh(user)
         return user
 
     # ── Addresses ──
