@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Message {
     role: 'user' | 'assistant';
@@ -32,6 +33,8 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || '/api/v1';
 
 export default function AssistentePage() {
     const router = useRouter();
+    const { user, isLoading: authLoading } = useAuth();
+
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
@@ -40,6 +43,13 @@ export default function AssistentePage() {
     const [error, setError] = useState<string | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    // Redirect if not logged in
+    useEffect(() => {
+        if (!authLoading && !user) {
+            router.push('/entrar');
+        }
+    }, [user, authLoading, router]);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -125,6 +135,15 @@ export default function AssistentePage() {
     };
 
     const canShowResults = messages.length >= 2 && !suggestions;
+
+    if (authLoading || (!user && !authLoading)) {
+        return (
+            <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
+                <Loader2 className="h-8 w-8 text-brand-500 animate-spin mb-4" />
+                <p className="text-gray-500">Carregando assistente...</p>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">

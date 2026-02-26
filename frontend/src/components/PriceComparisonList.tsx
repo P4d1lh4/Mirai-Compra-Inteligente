@@ -146,16 +146,25 @@ export default function PriceComparisonList({
 
             {/* Action buttons */}
             <div className="mt-3 flex gap-2">
-              {price.is_online && price.ecommerce_url && (
-                <a
-                  href={price.ecommerce_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-accent-500 py-2.5 text-sm font-semibold text-white hover:bg-accent-600 transition-colors"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Comprar Online
-                </a>
+              {price.is_online && (
+                price.ecommerce_url ? (
+                  <a
+                    href={price.ecommerce_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-accent-500 py-2.5 text-sm font-semibold text-white hover:bg-accent-600 transition-colors"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Comprar Online
+                  </a>
+                ) : (
+                  <button
+                    disabled
+                    className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gray-200 py-2.5 text-sm font-semibold text-gray-500 cursor-not-allowed opacity-75"
+                  >
+                    Oferta Indisponível
+                  </button>
+                )
               )}
               {!price.is_online && price.distance_km !== null && (
                 <a

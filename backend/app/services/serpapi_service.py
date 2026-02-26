@@ -347,12 +347,18 @@ class SerpApiService:
                 price_str = item.get("price", "")
                 preco = SerpApiService._parse_preco(price_str)
 
+            link = item.get("product_link") or item.get("link")
+            if not link:
+                link = "#"
+            elif link.startswith("/"):
+                link = f"https://www.google.com{link}"
+
             resultados.append({
                 "produto": item.get("title", "N/A"),
                 "loja": item.get("source", "N/A"),
                 "preco": float(preco or 0.0),
                 "preco_formatado": item.get("price", f"R$ {preco:,.2f}"),
-                "link": item.get("link", "#"),
+                "link": link,
                 "imagem": item.get("thumbnail", ""),
                 "entrega": item.get("delivery", ""),
                 "avaliacao": item.get("rating"),

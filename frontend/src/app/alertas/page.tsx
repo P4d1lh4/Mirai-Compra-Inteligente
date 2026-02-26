@@ -1,9 +1,11 @@
 'use client';
 
 import Header from '@/components/Header';
-import { Bell, BellOff, TrendingDown, ArrowDown, Plus } from 'lucide-react';
-import { useState } from 'react';
+import { Bell, BellOff, TrendingDown, ArrowDown, Plus, Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { formatPrice } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface DemoAlert {
   id: string;
@@ -17,7 +19,16 @@ interface DemoAlert {
 }
 
 export default function AlertasPage() {
+  const router = useRouter();
+  const { user, isLoading: authLoading } = useAuth();
   const [alerts, setAlerts] = useState<DemoAlert[]>([]);
+
+  // Redirect if not logged in
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push('/entrar');
+    }
+  }, [user, authLoading, router]);
 
   const toggleAlert = (id: string) => {
     setAlerts((prev) =>
@@ -31,6 +42,15 @@ export default function AlertasPage() {
 
   const activeAlerts = alerts.filter((a) => a.isActive);
   const triggeredAlerts = alerts.filter((a) => a.triggered && a.isActive);
+
+  if (authLoading || (!user && !authLoading)) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
+        <Loader2 className="h-8 w-8 text-brand-500 animate-spin mb-4" />
+        <p className="text-gray-500">Carregando alertas...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
