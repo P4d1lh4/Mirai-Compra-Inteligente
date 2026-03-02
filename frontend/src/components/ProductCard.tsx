@@ -6,7 +6,7 @@ import { formatPrice } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { memo, type MouseEvent, useState } from 'react';
 
 interface ProductCardProps {
   product: Product;
@@ -25,7 +25,7 @@ function ProductCardComponent({ product, onClick }: ProductCardProps) {
       ? product.max_price - product.min_price
       : 0;
 
-  const handleSave = async (e: React.MouseEvent) => {
+  const handleSave = async (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (!user) {
       router.push('/entrar');
@@ -144,6 +144,6 @@ function ProductCardComponent({ product, onClick }: ProductCardProps) {
   );
 }
 
-const ProductCard = React.memo(ProductCardComponent)
+const ProductCard = memo(ProductCardComponent)
 
 export default ProductCard
