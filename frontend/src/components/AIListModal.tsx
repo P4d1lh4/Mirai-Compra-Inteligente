@@ -190,7 +190,7 @@ export default function AIListModal({ open, onClose, onConfirm }: Props) {
                             </div>
                             <h3 className="text-lg font-bold text-gray-900 mb-2">Gerando sua lista...</h3>
                             <p className="text-sm text-gray-500 text-center max-w-xs">
-                                A IA está montando a melhor lista para: <span className="font-medium text-purple-700">"{prompt}"</span>
+                                A IA está montando a melhor lista para: <span className="font-medium text-purple-700">&quot;{prompt}&quot;</span>
                             </p>
                             <div className="flex gap-1.5 mt-6">
                                 <span className="ai-dot h-2.5 w-2.5 rounded-full bg-purple-500" style={{ animationDelay: '0s' }} />

@@ -377,7 +377,7 @@ export default function ListasPage() {
               className="mt-6 mx-auto flex items-center gap-1 rounded-xl bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 transition-colors"
             >
               <Plus className="h-4 w-4" />
-              Criar "Minha Lista"
+              Criar &quot;Minha Lista&quot;
             </button>
           </div>
         )}

@@ -176,7 +176,7 @@ export default function AlertasPage() {
             <Bell className="mx-auto h-12 w-12 text-gray-300" />
             <h3 className="mt-3 text-lg font-bold text-gray-900">Nenhum alerta ativo</h3>
             <p className="mt-1 text-gray-500">
-              Busque um produto e clique em "Avisar quando cair" para criar seu primeiro alerta.
+              Busque um produto e clique em &quot;Avisar quando cair&quot; para criar seu primeiro alerta.
             </p>
           </div>
         )}
