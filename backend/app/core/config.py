@@ -1,6 +1,8 @@
 """Application configuration from environment variables."""
 
 from pydantic_settings import BaseSettings
+from pydantic import field_validator
+import sys
 
 
 class Settings(BaseSettings):
@@ -38,6 +40,18 @@ class Settings(BaseSettings):
     # Pagination
     DEFAULT_PAGE_SIZE: int = 20
     MAX_PAGE_SIZE: int = 100
+
+    @field_validator("SECRET_KEY")
+    @classmethod
+    def validate_secret_key(cls, v: str, info) -> str:
+        """In production, SECRET_KEY must not be the default value."""
+        debug = info.data.get("DEBUG", True)
+        if not debug and v == "dev-secret-key-change-in-production":
+            raise ValueError(
+                "SECRET_KEY must be changed in production. "
+                "Set a strong SECRET_KEY in your .env file."
+            )
+        return v
 
     class Config:
         env_file = ".env"

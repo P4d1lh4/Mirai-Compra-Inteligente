@@ -1,5 +1,6 @@
 """Profile & address management endpoints."""
 
+import logging
 from uuid import UUID
 
 from fastapi import APIRouter, Depends
@@ -12,6 +13,8 @@ from app.schemas.user import (
     UserUpdate, UserProfileOut,
     UserAddressCreate, UserAddressUpdate, UserAddressOut,
 )
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -37,9 +40,7 @@ async def update_profile(
         service = ProfileService(db)
         return await service.update_profile(user_id, data)
     except Exception as e:
-        print(f"PROFILE UPDATE ERROR: {e}")
-        import traceback
-        traceback.print_exc()
+        logger.error(f"Profile update failed for user {user_id}", exc_info=True)
         raise
 
 

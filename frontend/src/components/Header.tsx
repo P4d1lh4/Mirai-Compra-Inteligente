@@ -71,6 +71,8 @@ function LocationSwitcher() {
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-label="Seletor de localização"
         className={cn(
           'hidden md:flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-all cursor-pointer',
           open

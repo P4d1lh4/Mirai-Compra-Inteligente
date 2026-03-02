@@ -58,11 +58,9 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    # configure connection dynamically from application settings
+    # Use DATABASE_URL_SYNC from settings
     configuration = config.get_section(config.config_ini_section, {})
-    
-    # Alembic in online mode must use the sync driver for SQLite
-    configuration["sqlalchemy.url"] = "sqlite:///./smartcart.db"
+    configuration["sqlalchemy.url"] = settings.DATABASE_URL_SYNC
 
     connectable = engine_from_config(
         configuration,

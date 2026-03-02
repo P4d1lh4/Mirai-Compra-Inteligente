@@ -39,6 +39,13 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-gray-50 font-sans antialiased">
+        {/* Skip navigation link for accessibility */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-50 focus:bg-blue-600 focus:text-white focus:px-4 focus:py-2"
+        >
+          Ir para conteúdo principal
+        </a>
         <Providers>{children}</Providers>
       </body>
     </html>

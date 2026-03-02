@@ -6,6 +6,10 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from fastapi.responses import JSONResponse
 
 # Fix for Windows loop policy with asyncpg if needed
 if sys.platform == "win32":
@@ -13,6 +17,9 @@ if sys.platform == "win32":
 
 from app.core.config import settings
 from app.api import router as api_router
+
+# Rate limiting setup
+limiter = Limiter(key_func=get_remote_address)
 
 
 @asynccontextmanager
@@ -45,6 +52,17 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
 )
+
+app.state.limiter = limiter
+
+
+@app.exception_handler(RateLimitExceeded)
+async def rate_limit_handler(request, exc):
+    return JSONResponse(
+        status_code=429,
+        content={"detail": "Too many requests. Please try again later."},
+    )
+
 
 # CORS
 app.add_middleware(

@@ -29,5 +29,24 @@ python-slugify==8.0.*
 # Geolocation
 geopy==2.4.*
 
-# AI (Google Gemini)
-google-genai==1.*
+# Rate limiting
+slowapi==0.1.*
+
+# AI (Groq)
+groq==0.10.*
+
+# Testing
+pytest==8.3.*
+pytest-asyncio==0.24.*
+httpx==0.28.*
+pytest-cov==5.1.*
+
+# Code Quality
+flake8==7.0.*
+black==24.1.*
+isort==5.13.*
+
+# Logging
+python-json-logger==2.1.*
+
+# Note: google-genai removed (using Groq instead)

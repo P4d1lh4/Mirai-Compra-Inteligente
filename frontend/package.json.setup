@@ -1,0 +1,24 @@
+# Passos para configurar Husky + lint-staged:
+
+# 1. Instalar dependências:
+npm install --save-dev husky lint-staged
+
+# 2. Inicializar Husky:
+npx husky install
+
+# 3. Criar pre-commit hook:
+npx husky add .husky/pre-commit "npx lint-staged"
+
+# 4. Criar lint-staged config (package.json):
+# Adicionar na seção package.json:
+{
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": ["eslint --fix", "prettier --write"],
+    "src/**/*.css": ["prettier --write"]
+  }
+}
+
+# Resultado:
+# - Ao fazer commit, eslint + prettier roda automaticamente
+# - Se lint falhar, commit é bloqueado
+# - Arquivos são corrigidos automaticamente

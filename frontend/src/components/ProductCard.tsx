@@ -4,6 +4,7 @@ import { ShoppingCart, MapPin, ArrowRight, Tag, Heart, Loader2 } from 'lucide-re
 import { Product, getShoppingLists, createShoppingList, addShoppingListItem } from '@/lib/api';
 import { formatPrice } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -12,8 +13,9 @@ interface ProductCardProps {
   onClick: () => void;
 }
 
-export default function ProductCard({ product, onClick }: ProductCardProps) {
+function ProductCardComponent({ product, onClick }: ProductCardProps) {
   const { user } = useAuth();
+  const { success, error } = useToast();
   const router = useRouter();
   const [isAdding, setIsAdding] = useState(false);
 
@@ -43,10 +45,10 @@ export default function ProductCard({ product, onClick }: ProductCardProps) {
         product_id: product.id,
         quantity: 1,
       });
-      alert('Produto adicionado à sua lista!');
+      success('Produto adicionado à sua lista!');
     } catch (err) {
       console.error(err);
-      alert('Erro ao adicionar à lista.');
+      error('Erro ao adicionar à lista. Tente novamente.');
     } finally {
       setIsAdding(false);
     }
@@ -141,3 +143,7 @@ export default function ProductCard({ product, onClick }: ProductCardProps) {
     </button>
   );
 }
+
+const ProductCard = React.memo(ProductCardComponent)
+
+export default ProductCard
